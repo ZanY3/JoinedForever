@@ -17,11 +17,17 @@ public class Player : MonoBehaviour
     public List<AudioClip> brabyDestroySounds; 
     [Header("Text")]
     public GameObject pressMouse1Text;
-
+    [Header ("Braby&Traby")]
     public bool isTraby;
     public bool isReadyToPunch = false;
     public GameObject brabyWall;
     public GameObject wallDestroyParticle;
+    [Header("Win")]
+    public GameObject winWindow;
+    public AudioClip winSound;
+    public GameObject destroyText;
+    [Header("Pause")]
+    public GameObject pauseWindow;
 
     private void Start()
     {
@@ -29,6 +35,10 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
         moveInput = Input.GetAxis("Horizontal");
         if (isGrounded == true)
         {
@@ -66,7 +76,10 @@ public class Player : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("Player"))
         {
-            print("Win");
+            winWindow.gameObject.SetActive(true);
+            source.PlayOneShot(winSound);
+            Destroy(destroyText);
+            Time.timeScale = 0f;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -90,5 +103,17 @@ public class Player : MonoBehaviour
                 isReadyToPunch = false;
             }
         }
+    }
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1f;
+        destroyText.SetActive(true);
+        pauseWindow.gameObject.SetActive(false);
+    }
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        destroyText.SetActive(false);
+        pauseWindow.gameObject.SetActive(true);
     }
 }
