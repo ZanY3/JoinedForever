@@ -1,23 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BgMusicManager : MonoBehaviour
 {
     public AudioSource source;
     public List<AudioClip> bgMusic;
+    public float playingTime;
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         var randomBgMusic = bgMusic[Random.Range(0, bgMusic.Count)];
-        source.PlayOneShot(randomBgMusic);
+        source.clip = randomBgMusic;
+        source.Play();
     }
     private void Update()
     {
-        if(!source.isPlaying)
+        if(source.isPlaying)
         {
-            var randomBgMusic = bgMusic[Random.Range(0, bgMusic.Count)];
-            source.PlayOneShot(randomBgMusic);
+            playingTime += Time.deltaTime;
         }
     }
 }

@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     [Header("Sounds")]
     public AudioSource source;
     public List<AudioClip> jumpSounds;
-    public List<AudioClip> brabyDestroySounds; 
+    public List<AudioClip> brabyDestroySounds;
+    BgMusicManager musicManager;
     [Header("Text")]
     public GameObject pressMouse1Text;
     [Header ("Braby&Traby")]
@@ -26,12 +27,15 @@ public class Player : MonoBehaviour
     public GameObject winWindow;
     public AudioClip winSound;
     public GameObject destroyText;
+    public AudioSource bgMusic;
     [Header("Pause")]
     public GameObject pauseWindow;
+    static AudioClip whatPlaying;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        musicManager = GetComponentInChildren<BgMusicManager>();
     }
     private void Update()
     {
@@ -76,10 +80,7 @@ public class Player : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("Player"))
         {
-            winWindow.gameObject.SetActive(true);
-            source.PlayOneShot(winSound);
-            Destroy(destroyText);
-            Time.timeScale = 0f;
+            Win();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -104,16 +105,29 @@ public class Player : MonoBehaviour
             }
         }
     }
-    public void UnPauseGame()
-    {
-        Time.timeScale = 1f;
-        destroyText.SetActive(true);
-        pauseWindow.gameObject.SetActive(false);
-    }
     public void PauseGame()
     {
         Time.timeScale = 0f;
         destroyText.SetActive(false);
         pauseWindow.gameObject.SetActive(true);
+        bgMusic.gameObject.SetActive(false);
+        
+    }
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1f;
+        destroyText.SetActive(true);
+        pauseWindow.gameObject.SetActive(false);
+        bgMusic.gameObject.SetActive(true);
+        print(musicManager.playingTime);
+        bgMusic.time = musicManager.playingTime;
+    }
+    public void Win()
+    {
+        source.PlayOneShot(winSound);
+        Destroy(destroyText);
+        Time.timeScale = 0f;
+        winWindow.gameObject.SetActive(true);
+        bgMusic.Stop();
     }
 }
