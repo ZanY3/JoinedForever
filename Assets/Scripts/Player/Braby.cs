@@ -1,28 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
 
-public class Player : MonoBehaviour
+public class Braby : MonoBehaviour
 {
     [Header("Movement")]
     Rigidbody2D rb;
-    public bool isGrounded;
+    static bool isGrounded;
     public float speed;
     public float jumpForce;
     private float moveInput;
+    private bool facingRight;
+    
     [Header("Sounds")]
     public AudioSource source;
     public List<AudioClip> jumpSounds;
     public List<AudioClip> brabyDestroySounds;
     BgMusicManager musicManager;
+    public AudioClip buttonSound;
     [Header("Text")]
     public GameObject pressMouse1Text;
-    [Header ("Braby&Traby")]
-    public bool isTraby;
-    public bool isReadyToPunch = false;
-    public GameObject brabyWall;
+    [Header("mechanics")]
+    static bool isReadyToPunch = false;
+    public GameObject destroyWall;
     public GameObject wallDestroyParticle;
+    public GameObject wallDestroyOnButton;
     [Header("Win")]
     public GameObject winWindow;
     public AudioClip winSound;
@@ -30,12 +32,11 @@ public class Player : MonoBehaviour
     public AudioSource bgMusic;
     [Header("Pause")]
     public GameObject pauseWindow;
-    static AudioClip whatPlaying;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        musicManager = GetComponentInChildren<BgMusicManager>();
+        musicManager = FindAnyObjectByType<BgMusicManager>();
     }
     private void Update()
     {
@@ -44,65 +45,64 @@ public class Player : MonoBehaviour
             PauseGame();
         }
         moveInput = Input.GetAxis("Horizontal");
+        if (facingRight == false && moveInput < 0)
+        {
+            Flip();
+        }
+        else if (facingRight == true && moveInput > 0)
+        {
+            Flip();
+        }
         if (isGrounded == true)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if(isTraby)
-                {
-                    var randomSound = jumpSounds[Random.Range(0, jumpSounds.Count)];
-                    source.PlayOneShot(randomSound);
-                }    
                 rb.velocity += Vector2.up * jumpForce;
                 isGrounded = false;
             }
         }
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-        if (!isTraby)
+        if (isReadyToPunch == true)
         {
-            if (isReadyToPunch == true)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    Destroy(brabyWall);
-                    Instantiate(wallDestroyParticle, brabyWall.transform.position, Quaternion.identity);
-                    var randomSound = brabyDestroySounds[Random.Range(0, brabyDestroySounds.Count)];
-                    source.PlayOneShot(randomSound);
-                }
+                Destroy(destroyWall);
+                Instantiate(wallDestroyParticle, destroyWall.transform.position, Quaternion.identity);
+                var randomSound = brabyDestroySounds[Random.Range(0, brabyDestroySounds.Count)];
+                source.PlayOneShot(randomSound);
             }
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
         }
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Win();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isTraby)
+        if (collision.gameObject.name.Contains("TriggerForPunch"))
         {
-            if (collision.gameObject.name.Contains("TriggerForPunch"))
-            {
-                pressMouse1Text.gameObject.SetActive(true);
-                isReadyToPunch = true;
-            }
+            pressMouse1Text.gameObject.SetActive(true);
+            isReadyToPunch = true;
+        }
+        if(collision.gameObject.name.Contains("Button"))
+        {
+            source.PlayOneShot(buttonSound);
+            Destroy(wallDestroyOnButton);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!isTraby)
+        if (collision.gameObject.name.Contains("TriggerForPunch"))
         {
-            if (collision.gameObject.name.Contains("TriggerForPunch"))
-            {
-                pressMouse1Text.gameObject.SetActive(false);
-                isReadyToPunch = false;
-            }
+            pressMouse1Text.gameObject.SetActive(false);
+            isReadyToPunch = false;
         }
     }
     public void PauseGame()
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         destroyText.SetActive(false);
         pauseWindow.gameObject.SetActive(true);
         bgMusic.gameObject.SetActive(false);
-        
+
     }
     public void UnPauseGame()
     {
@@ -130,4 +130,14 @@ public class Player : MonoBehaviour
         winWindow.gameObject.SetActive(true);
         bgMusic.Stop();
     }
+    void Flip() //rotate at move
+    {
+        facingRight = !facingRight;
+        Vector3 scaler = transform.localScale;
+        scaler.x *= -1;
+        transform.localScale = scaler;
+        
+    }
+
+
 }
