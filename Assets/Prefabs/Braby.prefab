@@ -236,6 +236,7 @@ MonoBehaviour:
   destroyWall: {fileID: 0}
   wallDestroyParticle: {fileID: 5343029198414274827, guid: 8d6213c8ff2e42143afe58863159af7e, type: 3}
   wallDestroyOnButton: {fileID: 0}
+  onButtonWallParticles: {fileID: 8776499808500562267, guid: b25789aca24f41545a521c0ec232eec8, type: 3}
   winWindow: {fileID: 0}
   winSound: {fileID: 8300000, guid: c8f4b65b20dff074c848a05098d07317, type: 3}
   destroyText: {fileID: 0}

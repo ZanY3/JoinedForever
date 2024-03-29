@@ -25,6 +25,7 @@ public class Braby : MonoBehaviour
     public GameObject destroyWall;
     public GameObject wallDestroyParticle;
     public GameObject wallDestroyOnButton;
+    public GameObject onButtonWallParticles;
     [Header("Win")]
     public GameObject winWindow;
     public AudioClip winSound;
@@ -106,6 +107,7 @@ public class Braby : MonoBehaviour
         if(collision.gameObject.name.Contains("Button"))
         {
             source.PlayOneShot(buttonSound);
+            Instantiate(onButtonWallParticles, wallDestroyOnButton.transform.position, Quaternion.identity);
             Destroy(wallDestroyOnButton);
         }
     }

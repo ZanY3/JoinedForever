@@ -232,6 +232,7 @@ MonoBehaviour:
   bgMusic: {fileID: 0}
   pauseWindow: {fileID: 0}
   wallDestroyOnButton: {fileID: 0}
+  onButtonWallParticles: {fileID: 8776499808500562267, guid: b25789aca24f41545a521c0ec232eec8, type: 3}
   animator: {fileID: 5568536730531338936}
 --- !u!95 &5568536730531338936
 Animator:

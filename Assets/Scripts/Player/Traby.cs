@@ -25,6 +25,7 @@ public class Traby : MonoBehaviour
     public GameObject pauseWindow;
     [Header("Mechanics")]
     public GameObject wallDestroyOnButton;
+    public GameObject onButtonWallParticles;
     [Header("Anims")]
     public Animator animator;
 
@@ -86,6 +87,7 @@ public class Traby : MonoBehaviour
         if (collision.gameObject.name.Contains("Button"))
         {
             source.PlayOneShot(buttonSound);
+            Instantiate(onButtonWallParticles, wallDestroyOnButton.transform.position, Quaternion.identity);
             Destroy(wallDestroyOnButton);
         }
     }
