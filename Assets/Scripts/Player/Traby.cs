@@ -25,6 +25,8 @@ public class Traby : MonoBehaviour
     public GameObject pauseWindow;
     [Header("Mechanics")]
     public GameObject wallDestroyOnButton;
+    [Header("Anims")]
+    public Animator animator;
 
     private void Start()
     {
@@ -33,6 +35,15 @@ public class Traby : MonoBehaviour
     }
     private void Update()
     {
+        if (moveInput != 0)
+        {
+            animator.SetBool("IsRuning", true);
+        }
+        else
+        {
+            animator.SetBool("IsRuning", false);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
@@ -50,6 +61,7 @@ public class Traby : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                animator.Play("TrabyJump");
                 var randomSound = jumpSounds[Random.Range(0, jumpSounds.Count)];
                 source.PlayOneShot(randomSound);
                 rb.velocity += Vector2.up * jumpForce;

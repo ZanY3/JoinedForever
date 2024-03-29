@@ -32,6 +32,8 @@ public class Braby : MonoBehaviour
     public AudioSource bgMusic;
     [Header("Pause")]
     public GameObject pauseWindow;
+    [Header("Anims")]
+    public Animator animator;
 
     private void Start()
     {
@@ -40,6 +42,15 @@ public class Braby : MonoBehaviour
     }
     private void Update()
     {
+        if(moveInput != 0)
+        {
+            animator.SetBool("IsRuning", true);
+        }
+        else
+        {
+            animator.SetBool("IsRuning", false);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
@@ -57,6 +68,7 @@ public class Braby : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                animator.Play("BrabyJump");
                 rb.velocity += Vector2.up * jumpForce;
                 isGrounded = false;
             }
