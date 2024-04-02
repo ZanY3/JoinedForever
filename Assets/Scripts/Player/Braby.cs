@@ -11,7 +11,7 @@ public class Braby : MonoBehaviour
     public float jumpForce;
     private float moveInput;
     private bool facingRight;
-    
+
     [Header("Sounds")]
     public AudioSource source;
     public List<AudioClip> jumpSounds;
