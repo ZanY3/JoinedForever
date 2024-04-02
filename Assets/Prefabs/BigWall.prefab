@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigWall
       objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 476974023348f4e4a8573b83e95a0b0e, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 476974023348f4e4a8573b83e95a0b0e, type: 3}
       propertyPath: m_Size.y
       value: 5

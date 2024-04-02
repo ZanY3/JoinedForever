@@ -16,7 +16,6 @@ public class Braby : MonoBehaviour
     public AudioSource source;
     public List<AudioClip> jumpSounds;
     public List<AudioClip> brabyDestroySounds;
-    BgMusicManager musicManager;
     public AudioClip buttonSound;
     [Header("Text")]
     public GameObject pressMouse1Text;
@@ -39,7 +38,6 @@ public class Braby : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        musicManager = FindAnyObjectByType<BgMusicManager>();
     }
     private void Update()
     {
@@ -111,6 +109,7 @@ public class Braby : MonoBehaviour
             Instantiate(onButtonWallParticles, wallDestroyOnButton.transform.position, Quaternion.identity);
             Destroy(wallDestroyOnButton);
         }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -127,15 +126,6 @@ public class Braby : MonoBehaviour
         pauseWindow.gameObject.SetActive(true);
         bgMusic.gameObject.SetActive(false);
 
-    }
-    public void UnPauseGame()
-    {
-        Time.timeScale = 1f;
-        destroyText.SetActive(true);
-        pauseWindow.gameObject.SetActive(false);
-        bgMusic.gameObject.SetActive(true);
-        print(musicManager.playingTime);
-        bgMusic.time = musicManager.playingTime;
     }
     public void Win()
     {

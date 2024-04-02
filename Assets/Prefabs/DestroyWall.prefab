@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 105817275613947166}
   m_Layer: 0
   m_Name: DestroyWall
-  m_TagString: Ground
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

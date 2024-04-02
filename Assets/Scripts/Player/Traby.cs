@@ -21,7 +21,7 @@ public class Traby : MonoBehaviour
     public AudioClip winSound;
     public GameObject destroyText;
     public AudioSource bgMusic;
-    public GameObject restartButton;
+
     [Header("Pause")]
     public GameObject pauseWindow;
     [Header("Mechanics")]
@@ -82,6 +82,7 @@ public class Traby : MonoBehaviour
         {
             Win();
         }
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -94,7 +95,6 @@ public class Traby : MonoBehaviour
     }
     public void PauseGame()
     {
-        restartButton.SetActive(false);
         Time.timeScale = 0f;
         destroyText.SetActive(false);
         pauseWindow.gameObject.SetActive(true);
@@ -112,7 +112,6 @@ public class Traby : MonoBehaviour
     }
     public void Win()
     {
-        restartButton.transform.position = new Vector3(507,185,0);
         source.PlayOneShot(winSound);
         Destroy(destroyText);
         Time.timeScale = 0f;

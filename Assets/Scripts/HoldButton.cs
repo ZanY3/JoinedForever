@@ -11,14 +11,12 @@ public class HoldButton : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("f");
         source.PlayOneShot(clickSound);
         buttonObj.position = new Vector3(buttonObj.position.x, -4.795f, buttonObj.position.z);
         wallOnButton.SetActive(false);
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        print("f");
         source.PlayOneShot(clickSound);
         buttonObj.position = new Vector3(buttonObj.position.x, -4.661f, buttonObj.position.z);
         wallOnButton.SetActive(true);
