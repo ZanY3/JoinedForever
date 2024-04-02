@@ -79,6 +79,7 @@ public class Braby : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                animator.SetTrigger("IsPunch");
                 Destroy(destroyWall);
                 Instantiate(wallDestroyParticle, destroyWall.transform.position, Quaternion.identity);
                 var randomSound = brabyDestroySounds[Random.Range(0, brabyDestroySounds.Count)];

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class ButtonManager : MonoBehaviour
 {
     public string nextLevelScene;
+    public string thisScene;
     public void LoadTutorial()
     {
         SceneManager.LoadScene("Tutorial");
@@ -25,6 +27,11 @@ public class ButtonManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene(thisScene);
+        Time.timeScale = 1.0f;
     }
 
 }
